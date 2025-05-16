@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CosmicCraft</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+<th:block th:fragment="layout(content)">
+    <header class="header">
+        <div class="container">
+            <a href="/" class="logo">CosmicCraft</a>
+            <nav class="nav">
+                <a href="/" class="nav-link">Products</a>
+                <div sec:authorize="isAuthenticated()">
+                    <div th:if="${isAdmin}">
+                        <a href="/admin" class="nav-link">Admin Panel</a>
+                    </div>
+                    <div th:unless="${isAdmin}">
+                        <a href="/cart" class="nav-link">Cart</a>
+                        <a href="/wishlist" class="nav-link">Wishlist</a>
+                        <a href="/orders" class="nav-link">Orders</a>
+                    </div>
+                    <div class="user-menu">
+                        <a href="/settings" class="user-link">
+                            <img th:if="${#authentication.principal.avatar != null and #authentication.principal.avatar.base64 != null}"
+                                 th:src="'data:image/*;base64,' + ${#authentication.principal.avatar.base64}"
+                                 alt="Avatar" class="avatar">
+                            <span th:unless="${#authentication.principal.avatar != null and #authentication.principal.avatar.base64 != null}"
+                                  class="avatar-placeholder">?</span>
+                            <span th:text="${#authentication.principal.name}"></span>
+                        </a>
+                        <form action="/logout" method="post" class="inline">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="btn btn-danger">Logout</button>
+                        </form>
+                    </div>
+                </div>
+                <div sec:authorize="isAnonymous()">
+                    <a href="/login" class="btn btn-primary">Login</a>
+                    <a href="/registration" class="btn btn-primary">Register</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <main class="container">
+        <th:block th:replace="${content}"/>
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 CosmicCraft. All rights reserved.</p>
+        </div>
+    </footer>
+</th:block>
+</body>
+</html>

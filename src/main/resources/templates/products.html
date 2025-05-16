@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Products</title>
+</head>
+<body>
+<th:block th:replace="~{layout :: layout(~{::content})}">
+    <th:block th:fragment="content">
+        <h1 class="title">Products</h1>
+        <div class="form-group flex gap-4">
+            <form action="/" method="get" class="flex-1">
+                <div class="form-group">
+                    <label for="title">Search by title</label>
+                    <input type="text" id="title" name="title" th:value="${title}" placeholder="Search by title">
+                </div>
+                <div class="form-group">
+                    <label for="maxPrice">Max price</label>
+                    <input type="number" id="maxPrice" name="maxPrice" th:value="${maxPrice}" placeholder="Max price">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <form action="/" method="get">
+                <div class="form-group">
+                    <label for="categoryId">Category</label>
+                    <select id="categoryId" name="categoryId" onchange="this.form.submit()">
+                        <option value="">All Categories</option>
+                        <th:block th:each="category : ${categories}">
+                            <option th:value="${category.id}" th:selected="${categoryId != null and categoryId == category.id}" th:text="${category.name}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <div class="grid">
+            <th:block th:each="product : ${products}">
+                <div class="card">
+                    <th:if test="${product.images != null and not product.images.isEmpty()}">
+                        <img th:src="'data:image/*;base64,' + ${product.images[0].base64}" th:alt="${product.title}" class="w-full h-48 object-cover rounded mb-4">
+                    </th:if>
+                    <th:unless test="${product.images != null and not product.images.isEmpty()}">
+                        <div class="w-full h-48 bg-gray-600 rounded mb-4 flex items-center justify-center text-gray-400">No Image</div>
+                    </th:unless>
+                    <h2 class="text-xl font-semibold" th:text="${product.title}"></h2>
+                    <p class="text-gray-400" th:text="${product.category.name}"></p>
+                    <p class="text-lg font-bold text-purple" th:text="'$' + ${product.price}"></p>
+                    <a th:href="'/product/' + ${product.id}" class="btn btn-primary mt-2 inline-block">Details</a>
+                </div>
+            </th:block>
+        </div>
+    </th:block>
+</th:block>
+</body>
+</html>
