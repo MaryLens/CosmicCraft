@@ -6,6 +6,7 @@ import com.example.cosmiccraft.models.view.ProductView;
 import com.example.cosmiccraft.services.ProductService;
 import com.example.cosmiccraft.services.WishlistService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +23,10 @@ public class WishlistController {
     public String wishlist(Model model) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("wishlist", wishlistService.getWishlistByUser(user));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        model.addAttribute("isAdmin", isAdmin);
         return "wishlist";
     }
 

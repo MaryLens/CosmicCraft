@@ -2,9 +2,11 @@ package com.example.cosmiccraft.patterns.behavioral;
 
 import com.example.cosmiccraft.models.Cart;
 import com.example.cosmiccraft.models.CartItem;
+import lombok.Data;
 
 import java.util.Iterator;
 
+@Data
 public class CartIterator implements Iterator<CartItem> {
     private final Cart cart;
     private int index;

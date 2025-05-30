@@ -12,6 +12,7 @@ import com.example.cosmiccraft.repositories.CartRepository;
 import com.example.cosmiccraft.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,6 +20,7 @@ public class CartService {
     private final CartRepository cartRepository;
     private final ProductRepository productRepository;
 
+    @Transactional
     public Cart getCartByUser(User user) {
         return cartRepository.findByUser(user).orElseThrow();
     }

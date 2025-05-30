@@ -9,6 +9,7 @@ import com.example.cosmiccraft.patterns.structural.OrderFacade;
 import com.example.cosmiccraft.services.CartService;
 import com.example.cosmiccraft.services.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,10 @@ public class CartController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Cart cart = cartService.getCartByUser(user);
         model.addAttribute("cartIterable", new CartIterable(cart));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = auth.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        model.addAttribute("isAdmin", isAdmin);
         return "cart";
     }
 

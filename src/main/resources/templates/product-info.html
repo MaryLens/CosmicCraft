@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Product</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <th:block th:replace="~{layout :: layout(~{::content})}">
@@ -12,7 +14,7 @@
             <th:if test="${product.images != null and not product.images.isEmpty()}">
                 <div class="flex flex-wrap gap-4 mb-4">
                     <th:block th:each="image : ${product.images}">
-                        <img th:src="'data:image/*;base64,' + ${image.base64}" th:alt="${image.originalFileName}" class="w-48 h-48 object-cover rounded">
+                        <img th:src="'data:image/*;base64,' + ${image.base64}" th:alt="${image.image.originalFileName}" class="w-48 h-48 object-cover rounded">
                     </th:block>
                 </div>
             </th:if>

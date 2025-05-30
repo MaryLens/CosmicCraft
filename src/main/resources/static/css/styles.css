@@ -15,6 +15,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    gap: 20px;
 }
 
 .header {
@@ -98,6 +99,17 @@ body {
     font-size: 14px;
     font-weight: 500;
     transition: background-color 0.3s, color 0.3s;
+    width: 100%;
+}
+.row-container{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: 100%;
+}
+.checkbox{
+    width: 15px;
+    height: 15px;
 }
 
 .btn-primary {
@@ -129,6 +141,7 @@ main {
     border-radius: 8px;
     padding: 24px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
 }
 
 .title {
@@ -140,7 +153,7 @@ main {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 24px;
 }
 
@@ -202,6 +215,11 @@ label {
 
 .border-b {
     border-bottom: 1px solid #4a5568;
+}
+.card-image{
+    width: 100%;
+    height: 250px;
+    border-radius: 10px;
 }
 
 @media (max-width: 768px) {

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Products</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <th:block th:replace="~{layout :: layout(~{::content})}">
@@ -36,7 +38,7 @@
             <th:block th:each="product : ${products}">
                 <div class="card">
                     <th:if test="${product.images != null and not product.images.isEmpty()}">
-                        <img th:src="'data:image/*;base64,' + ${product.images[0].base64}" th:alt="${product.title}" class="w-full h-48 object-cover rounded mb-4">
+                        <img th:src="'data:image/*;base64,' + ${product.images[0].base64}" th:alt="${product.title}" class="card-image w-full h-48 object-cover rounded mb-4">
                     </th:if>
                     <th:unless test="${product.images != null and not product.images.isEmpty()}">
                         <div class="w-full h-48 bg-gray-600 rounded mb-4 flex items-center justify-center text-gray-400">No Image</div>

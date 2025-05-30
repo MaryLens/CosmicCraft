@@ -8,13 +8,14 @@ import com.example.cosmiccraft.repositories.ProductRepository;
 import com.example.cosmiccraft.repositories.WishlistRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class WishlistService {
     private final WishlistRepository wishlistRepository;
     private final ProductRepository productRepository;
-
+    @Transactional
     public Wishlist getWishlistByUser(User user) {
         return wishlistRepository.findByUser(user).orElseThrow();
     }

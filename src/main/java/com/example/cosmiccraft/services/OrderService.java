@@ -8,6 +8,7 @@ import com.example.cosmiccraft.patterns.behavioral.UserNotificationObserver;
 import com.example.cosmiccraft.repositories.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +55,7 @@ public class OrderService {
         orderSubject.addObserver(new UserNotificationObserver(order.getUser()));
         orderSubject.notifyObservers(order);
     }
-
+    @Transactional
     public List<Order> findByUser(User user) {
         return orderRepository.findByUser(user);
     }

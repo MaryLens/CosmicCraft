@@ -116,4 +116,11 @@ public class ProductService {
         view.setImages(imageProxies);
         return view;
     }
+
+    public void updateSaleStatus(Long productId, boolean isOnSale) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setOnSale(isOnSale);
+        productRepository.save(product);
+    }
 }

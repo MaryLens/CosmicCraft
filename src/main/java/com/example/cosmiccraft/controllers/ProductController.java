@@ -16,10 +16,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -54,6 +51,13 @@ public class ProductController {
     @GetMapping("/product/{id}")
     public String productInfo(@PathVariable long id, Model model) {
         model.addAttribute("product", productService.getProductById(id));
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        boolean isAdmin = false;
+        if (auth != null && auth.isAuthenticated() && !auth.getAuthorities().isEmpty()) {
+            isAdmin = auth.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        }
+        model.addAttribute("isAdmin", isAdmin);
         return "product-info";
     }
 
@@ -63,6 +67,7 @@ public class ProductController {
                                 Product product) {
         Category category = categoryService.getCategoryById(categoryId);
         productService.saveProduct(product, files, category);
+
         return "redirect:/admin";
     }
 
@@ -84,6 +89,12 @@ public class ProductController {
         AdminCommandInvoker invoker = new AdminCommandInvoker();
         invoker.setCommand(new DeleteProductCommand(productService,id));
         invoker.executeCommand();
+        return "redirect:/admin";
+    }
+
+    @PostMapping("/admin/product/update-sale/{id}")
+    public String updateSaleStatus(@PathVariable Long id, @RequestParam("isOnSale") boolean isOnSale) {
+        productService.updateSaleStatus(id, isOnSale);
         return "redirect:/admin";
     }
 }

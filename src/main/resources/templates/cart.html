@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Cart</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 <th:block th:replace="~{layout :: layout(~{::content})}">
@@ -14,7 +16,7 @@
                     <div class="flex items-center justify-between border-b py-4">
                         <div class="flex items-center">
                             <th:if test="${item.product.images != null and not item.product.images.isEmpty()}">
-                                <img th:src="'data:image/*;base64,' + ${item.product.images[0].base64}" th:alt="${item.product.title}" class="w-16 h-16 object-cover rounded mr-4">
+                                <img th:src="'data:image/*;base64,' + ${item.product.images[0].base64}" th:alt="${item.product.title}" class="card-image w-16 h-16 object-cover rounded mr-4">
                             </th:if>
                             <div>
                                 <h2 class="text-lg font-semibold" th:text="${item.product.title}"></h2>
@@ -40,9 +42,9 @@
                 </form>
             </div>
         </th:if>
-        <th:unless test="${cartIterable != null}">
+        <th:if test="${cartIterable = null}">
             <p class="text-gray-400">Your cart is empty.</p>
-        </th:unless>
+        </th:if>
     </th:block>
 </th:block>
 </body>
